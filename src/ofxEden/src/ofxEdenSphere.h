@@ -42,12 +42,37 @@ public:
 	};
 	
     void drawFrame(int _width=0, int _height=0){
+#if !defined(HAVE_GLES)
         glBegin(GL_QUADS);
         glTexCoord2f(0, 0); glVertex3f(0, 0, 0);
         glTexCoord2f(_width, 0); glVertex3f(_width, 0, 0);
         glTexCoord2f(_width, _height); glVertex3f(_width, _height, 0);
         glTexCoord2f(0,_height);  glVertex3f(0,_height, 0);
         glEnd();
+#else
+        GLfloat vtx1[] = {
+            0,      0,       0,
+            _width, 0,       0,
+            _width, _height, 0,
+            0,      _height, 0
+        };
+        GLfloat tex1[] = {
+            0,0,
+            _width,0,
+            _width,_height,
+            0,_height
+        };
+        
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        
+        glVertexPointer(3, GL_FLOAT, 0, vtx1);
+        glTexCoordPointer(2, GL_FLOAT, 0, tex1);
+        glDrawArrays(GL_TRIANGLE_FAN,0,4);
+        
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+#endif
     }
     
 	ofxEdenData *data;
