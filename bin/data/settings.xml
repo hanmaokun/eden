@@ -4,10 +4,10 @@
 	<Temp._Diss.>0.871429</Temp._Diss.>
 	<Vel._Diss.>0.928571</Vel._Diss.>
 	<Den._Diss.>0.99</Den._Diss.>
-	<Higher_point>735</Higher_point>
-	<Lower_point>1005</Lower_point>
+	<Higher_point>655</Higher_point>
+	<Lower_point>726</Lower_point>
 	<Terrain_res.>5</Terrain_res.>
-	<Water_level>0.0428571</Water_level>
+	<Water_level>0.4</Water_level>
 	<Amount_of_rain>0.09</Amount_of_rain>
 	<Min_humidity>0.15</Min_humidity>
 	<Min_cold>0.16</Min_cold>
@@ -27,4 +27,5 @@
 	<Alineation>1</Alineation>
 	<Cohesion>0.985714</Cohesion>
 	<Border>0.025</Border>
+<Panel/>
 </Panel>

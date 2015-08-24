@@ -3,6 +3,28 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "testApp::update():testApp.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "depthFloatImage.pixels.pixels">
+            </PersistentString>
+            <PersistentString
+               value = "*(depthRaw)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ofPixels_&lt;float&gt;::getBytesPerChannel() const:ofPixels.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "ofImage_&lt;float&gt;::getTextureReference():ofImage.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "this-&gt;tex.texData.glTypeInternal">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ofXml::loadFromBuffer(std::string const&amp;):ofXml.cpp">
          <PersistentStrings>
             <PersistentString

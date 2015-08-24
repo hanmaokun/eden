@@ -6,10 +6,10 @@ void testApp::setup(){
     ofEnableSmoothing();
     ofSetVerticalSync(false);
     
-    ofSetDataPathRoot("/Users/hanmaokun/devel/sandbox/eden/bin/data/");
+    ofSetDataPathRoot("/Users/hanmaokun/Downloads/of_v0.8.4_osx_release/apps/myApps/eden/bin/data/");
     
     ofLog(OF_LOG_NOTICE, "Loading ofxComposer");
-    composer.load("/Users/hanmaokun/devel/sandbox/eden/bin/data/config.xml");
+    composer.load("/Users/hanmaokun/Downloads/of_v0.8.4_osx_release/apps/myApps/eden/bin/data/config.xml");
     
     ofLog(OF_LOG_NOTICE, "Loading xml data Settings");
 	data.load();
@@ -74,8 +74,8 @@ void testApp::update(){
     data.update();
     kinect.update();
 
-    composer[1]->setTexture(kinect.getTextureReference());
-    composer[3]->setTexture(kinect.getDepthTextureReference());
+    //composer[1]->setTexture(kinect.getTextureReference());
+    //composer[3]->setTexture(kinect.getDepthTextureReference());
     
     if(kinect.isFrameNew()) {
         
@@ -141,7 +141,7 @@ void testApp::update(){
             // PROCESS DATA
             // -----------------------------------------------------
             // Atmosphere
-            atmosphere.update(blobImage, depthFloatImage);
+            /*atmosphere.update(blobImage, depthFloatImage);
             ofDisableAlphaBlending();
             
             // Geosphere
@@ -154,7 +154,7 @@ void testApp::update(){
             biosphere.update(hydrosphere.getTextureReference(), geosphere );
             
             // FinalMix
-            textures.update(hydrosphere.getBlurTexture(), biosphere, geosphere);
+            textures.update(hydrosphere.getBlurTexture(), biosphere, geosphere);*/
             
             if (data.activeLayer == 0)
                 composer[2]->setTexture(textures.getTextureReference());
