@@ -216,7 +216,7 @@ ofxEdenGeosphere& ofxEdenGeosphere::setTotalFrames(int n, ofTexture& cleanTextur
 	}
 }
 
-void ofxEdenGeosphere::update(ofFloatImage &fImage )
+void ofxEdenGeosphere::update(ofImage &fImage )
 {
 	ofDisableAlphaBlending();
 	frames[frame] = fImage.getTextureReference();

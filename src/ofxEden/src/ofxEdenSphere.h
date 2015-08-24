@@ -72,6 +72,7 @@ public:
         
         glDisableClientState(GL_VERTEX_ARRAY);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        ofRect(0, 0, _width, _height);
 #endif
     }
     

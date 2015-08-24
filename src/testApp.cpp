@@ -98,7 +98,7 @@ void testApp::update(){
             numPixels = width * height; 
             
             unsigned char * blobPixels = blobImage.getPixels();
-            float * depthFloatPixels = depthFloatImage.getPixels();
+            unsigned char * depthFloatPixels = depthFloatImage.getPixels();
             
             // ... and extract the range it neads
             int farThreshold = data.topAltitude; //minDist;
@@ -107,7 +107,7 @@ void testApp::update(){
             for(int i = 0; i < numPixels; i++, depthRaw++) {
                 if(*depthRaw <= nearThreshold && *depthRaw >= farThreshold){
                     blobPixels[i] = 0;
-                    depthFloatPixels[i] += ofMap(*depthRaw, nearThreshold, farThreshold, 0.0f,1.0f);
+                    depthFloatPixels[i] += (int)ofMap(*depthRaw, nearThreshold, farThreshold, 0,150);
                     depthFloatPixels[i] *= 0.5;
                 } else if ( *depthRaw < nearThreshold ){
                     if ( *depthRaw == 0)
@@ -116,7 +116,7 @@ void testApp::update(){
                         blobPixels[i] = 255;
                 } else if ( *depthRaw > farThreshold ){
                     blobPixels[i] = 0;
-                    depthFloatPixels[i] = 0.0f;
+                    depthFloatPixels[i] = 0;
                 } else {
                     blobPixels[i] = 0;
                 }
@@ -141,7 +141,7 @@ void testApp::update(){
             // PROCESS DATA
             // -----------------------------------------------------
             // Atmosphere
-            /*atmosphere.update(blobImage, depthFloatImage);
+            atmosphere.update(blobImage, depthFloatImage);
             ofDisableAlphaBlending();
             
             // Geosphere
@@ -154,7 +154,7 @@ void testApp::update(){
             biosphere.update(hydrosphere.getTextureReference(), geosphere );
             
             // FinalMix
-            textures.update(hydrosphere.getBlurTexture(), biosphere, geosphere);*/
+            textures.update(hydrosphere.getBlurTexture(), biosphere, geosphere);
             
             if (data.activeLayer == 0)
                 composer[2]->setTexture(textures.getTextureReference());

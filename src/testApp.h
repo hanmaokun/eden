@@ -42,7 +42,7 @@ public:
     
     ofxKinect kinect;
     ofxCvGrayscaleImage	blobImage;			// This goes to Atmosphere System
-    ofFloatImage		depthFloatImage;	// This goes to Geosphere Syste
+    ofImage		depthFloatImage;	// This goes to Geosphere Syste
     
 	// Processing
 	// ---------------------------------------------
