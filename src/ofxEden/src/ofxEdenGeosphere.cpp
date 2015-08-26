@@ -216,7 +216,7 @@ ofxEdenGeosphere& ofxEdenGeosphere::setTotalFrames(int n, ofTexture& cleanTextur
 	}
 }
 
-void ofxEdenGeosphere::update(ofImage &fImage )
+void ofxEdenGeosphere::update(ofFloatImage &fImage )
 {
 	ofDisableAlphaBlending();
 	frames[frame] = fImage.getTextureReference();
@@ -270,6 +270,7 @@ ofTexture ofxEdenGeosphere::normal(ofTexture& heightmap)
 	normalFbo.begin();
 	ofClear(0, 0, 0, 255);
 	normalShader.begin();
+    //normalShader.setUniformTexture("tex", heightmap, 0);
 	normalShader.setUniform1f("xOffset", 1.0f);
 	normalShader.setUniform1f("yOffset", 1.0f);
 	

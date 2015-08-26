@@ -37,7 +37,7 @@ public:
     ofxFluid&   getFluid(){return fluid;};
 	ofTexture&	getTextureReference() {return clouds.getTextureReference();};
 	
-    void update(ofxCvGrayscaleImage &blobImage, ofImage &depthFloatImage);
+    void update(ofxCvGrayscaleImage &blobImage, ofFloatImage &depthFloatImage);
 	
 	void draw(int _x, int _y, int _width, int _height);
 	

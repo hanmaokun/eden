@@ -22,7 +22,7 @@ public:
 	ofxEdenGeosphere& allocate(int _width, int _height);
 	ofxEdenGeosphere& setTotalFrames(int n, ofTexture& cleanTexture);
 	
-	void update( ofImage &fImage );
+	void update( ofFloatImage &fImage );
 	
 	ofTexture&	getAverage(){ return averageTexture; };
 	ofTexture&	getChange(){ return changeTexture; };

@@ -55,10 +55,11 @@ void testApp::setup(){
     bEdit = false;
     bTerrain = false;
     bCalibrated = true;
-    bMouse = false;
+    bMouse = true;
     
-    ofHideCursor();
-    ofSetFullscreen(false);
+    ofShowCursor();
+    //ofHideCursor();
+    ofSetFullscreen(true);
     composer.setEdit(true);
 }
 
@@ -98,7 +99,7 @@ void testApp::update(){
             numPixels = width * height; 
             
             unsigned char * blobPixels = blobImage.getPixels();
-            unsigned char * depthFloatPixels = depthFloatImage.getPixels();
+            float * depthFloatPixels = depthFloatImage.getPixels();
             
             // ... and extract the range it neads
             int farThreshold = data.topAltitude; //minDist;
@@ -107,7 +108,7 @@ void testApp::update(){
             for(int i = 0; i < numPixels; i++, depthRaw++) {
                 if(*depthRaw <= nearThreshold && *depthRaw >= farThreshold){
                     blobPixels[i] = 0;
-                    depthFloatPixels[i] += (int)ofMap(*depthRaw, nearThreshold, farThreshold, 0,150);
+                    depthFloatPixels[i] += ofMap(*depthRaw, nearThreshold, farThreshold, 0,1.0);
                     depthFloatPixels[i] *= 0.5;
                 } else if ( *depthRaw < nearThreshold ){
                     if ( *depthRaw == 0)
@@ -116,7 +117,7 @@ void testApp::update(){
                         blobPixels[i] = 255;
                 } else if ( *depthRaw > farThreshold ){
                     blobPixels[i] = 0;
-                    depthFloatPixels[i] = 0;
+                    depthFloatPixels[i] = 0.0;
                 } else {
                     blobPixels[i] = 0;
                 }
@@ -349,7 +350,10 @@ void testApp::mouseDragged(int x, int y, int button){
 }
 
 void testApp::mousePressed(int x, int y, int button){
-  
+    /*data.activeLayer += 1;
+    if(data.activeLayer == 10) {
+        data.activeLayer = 0;
+    }*/
 }
 
 void testApp::mouseReleased(int x, int y, int button){

@@ -10,7 +10,7 @@
 
 ofxEdenData::ofxEdenData()
 { 
-    activeLayer = 3; // 0 -> ALL layers
+    activeLayer = 0; // 0 -> ALL layers
 }
 
 void ofxEdenData::load(){

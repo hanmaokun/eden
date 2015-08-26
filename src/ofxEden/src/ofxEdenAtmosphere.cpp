@@ -59,7 +59,7 @@ ofxEdenAtmosphere& ofxEdenAtmosphere::circularWind(float force, float angle)
     return * this;
 };
 
-void ofxEdenAtmosphere::update(ofxCvGrayscaleImage &blobImage, ofImage &depthFloatImage)
+void ofxEdenAtmosphere::update(ofxCvGrayscaleImage &blobImage, ofFloatImage &depthFloatImage)
 {
     
 	contour.findContours(blobImage, 20, (340*240)/3, 10, 20, false);
