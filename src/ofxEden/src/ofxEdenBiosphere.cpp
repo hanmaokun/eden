@@ -124,7 +124,7 @@ void ofxEdenBiosphere::update(ofTexture& hydroText, ofxEdenGeosphere& geo){
 	shader.setUniformTexture("conditions", geo.getConditions() , 0);
 	shader.setUniformTexture("biosphere", fbo[other].getTextureReference(), 1);
 	shader.setUniformTexture("hydrosphere", hydroText, 2);
-	shader.setUniformTexture("change", geo.getChange(), 3);
+	shader.setUniformTexture("change", geo.getChangeE(), 3);
 	
 	shader.setUniform1f("width", (float)width);
 	shader.setUniform1f("diffU", (float)(data->biosphereDiffU) );

@@ -199,6 +199,7 @@ ofxEdenGeosphere& ofxEdenGeosphere::allocate(int _width, int _height)
     cout << "- change Fbo" << endl;
     changeFbo.allocate(width,height,GL_RGB);
 	changeTexture.allocate(_width,_height,GL_RGB);
+    changeTextureEmpty.allocate(_width,_height,GL_RGB);
 	
 	return * this;
 }
@@ -228,6 +229,7 @@ void ofxEdenGeosphere::update(ofFloatImage &fImage )
 	texture = conditions( averageTexture , noiseTexture );
 	
 	changeTexture = change();
+    //changeTextureEmpty = changeE();
 	
 	frame = (frame+1)%totalFrames;
 }
@@ -270,7 +272,6 @@ ofTexture ofxEdenGeosphere::normal(ofTexture& heightmap)
 	normalFbo.begin();
 	ofClear(0, 0, 0, 255);
 	normalShader.begin();
-    //normalShader.setUniformTexture("tex", heightmap, 0);
 	normalShader.setUniform1f("xOffset", 1.0f);
 	normalShader.setUniform1f("yOffset", 1.0f);
 	
@@ -326,12 +327,33 @@ ofTexture ofxEdenGeosphere::change()
 	frames[frame].draw(0,0);
 	
 	ofEnableBlendMode(OF_BLENDMODE_SUBTRACT);
-	frames[(frame+totalFrames-3)%totalFrames].draw(0,0);
+	//frames[(frame+totalFrames-3)%totalFrames].draw(0,0);
 	ofDisableBlendMode();
 	 
 	changeFbo.end();
 	
 	return changeFbo.getTextureReference();
+}
+
+ofTexture ofxEdenGeosphere::changeE()
+{
+    //ofDisableBlendMode();
+    //ofDisableAlphaBlending();
+    //ofEnableAlphaBlending();
+    
+    changeFbo.begin();
+    ofClear(0, 0, 0, 255);
+    ofSetColor(255, 255);
+    
+    frames[frame].draw(0,0);
+    
+    ofEnableBlendMode(OF_BLENDMODE_SUBTRACT);
+    //frames[(frame+totalFrames-3)%totalFrames].draw(0,0);
+    ofDisableBlendMode();
+    
+    changeFbo.end();
+    
+    return changeFbo.getTextureReference();
 }
 
 void ofxEdenGeosphere::drawDepth(int _x, int _y, int _width, int _height)

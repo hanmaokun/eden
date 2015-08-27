@@ -1,30 +1,52 @@
-//
-//  ofxFluid.h
-//  GPU fluid
-//
-//  Created by Patricio González Vivo on 9/29/11.
-//  Copyright 2011 PatricioGonzalezVivo.com. All rights reserved.
-//
-//  Created ussing:
-//
-//    - Mark Harris article from GPU Gems 1
-//      http://http.developer.nvidia.com/GPUGems/gpugems_ch38.html
-//
-//    - Phil Rideout
-//      http://prideout.net/blog/?p=58
-
-#ifndef GPU_fluid_ofxFluid_h
-#define GPU_fluid_ofxFluid_h
+/*
+ *  ofxFluid.h
+ *
+ *  Created by Patricio Gonzalez Vivo on 9/29/11.
+ *  Copyright 2011 http://PatricioGonzalezVivo.com All rights reserved.
+ *
+ *  Created ussing:
+ *
+ *    - Mark Harris article from GPU Gems 1
+ *      http://http.developer.nvidia.com/GPUGems/gpugems_ch38.html
+ *
+ *    - Phil Rideout
+ *      http://prideout.net/blog/?p=58
+ *  
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the author nor the names of its contributors
+ *       may be used to endorse or promote products derived from this software
+ *       without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ *  THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ *  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ *  OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+ *  OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ *  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ *  OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *  ************************************************************************************ 
+ * 
+ *  tex0 -> obstacles
+ *
+ */
+ 
+#ifndef OFXFLUID
+#define OFXFLUID
 
 #include "ofMain.h"
-
-typedef struct  {
-    ofFbo   *src;       // Source       ->  Ping
-    ofFbo   *dst;       // Destination  ->  Pong
-    ofFbo   FBOs[2];    // Real addresses of ping/pong FBO´s 
-    int     flag;       // Integer for making a quick swap
-    float   diss;       // Dissipation
-} Buffer;
+#include "ofxFXObject.h"
 
 typedef struct  {
     ofVec3f color;
@@ -35,79 +57,85 @@ typedef struct  {
     float   den;
 } punctualForce;
 
-class ofxFluid {
+class ofxFluid : public ofxFXObject {
 public:
     ofxFluid();
     
-    ofxFluid&   allocate(int _width, int _height, float _scale);
+    void    allocate(int _width, int _height, float _scale = 0.5, bool _hd = true);
     
-    ofxFluid&   setDensity(ofTexture & _tex){setTextureToBuffer(_tex, densityBuffer); return * this; };
-    ofxFluid&   setVelocity(ofTexture & _tex){setTextureToBuffer(_tex, velocityBuffer); return * this; };
-    ofxFluid&   setTemperature(ofTexture & _tex){setTextureToBuffer(_tex, temperatureBuffer); return * this; };
-    ofxFluid&   setGravity(ofVec2f _force){ gForce = _force; return * this;};
-    ofxFluid&   setDensityDissipation(float _diss){densityBuffer.diss = _diss; return * this;};
-    ofxFluid&   setVelocityDissipation(float _diss){velocityBuffer.diss = _diss; return * this;};
-    ofxFluid&   setTemperatureDissipation(float _diss){temperatureBuffer.diss = _diss; return * this;};
+    void    setGravity(ofPoint _force){ gForce = _force; };
+    void    setUseObstacles(bool _do);
+    void    setObstacles(ofBaseHasTexture &_tex);
     
-    void    addTemporalForce(ofVec2f _pos, ofVec2f _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.0f );
-    void    addConstantForce(ofVec2f _pos, ofVec2f _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.0f );
+    void    addColor(ofTexture &_tex, float _pct = 1.0);
+    void    addColor(ofBaseHasTexture &_tex, float _pct = 1.0);
+    void    addVelocity(ofTexture &_tex, float _pct = 1.0);
+    void    addVelocity(ofBaseHasTexture &_tex, float _pct = 1.0);
+    void    addTemporalForce(ofPoint _pos, ofPoint _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.f );
+    void    addConstantForce(ofPoint _pos, ofPoint _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.f );
     
-    void    obstaclesBegin(); // FBO for obstables
-    void    obstaclesEnd();
+    virtual ofTexture & getTexture() {
+        return pingPong.src->getTextureReference();
+    };
     
+    //ofTexture & getTexture();
+    const ofTexture & getTexture() const;
+    
+    void    clear(float _alpha = 1.0);
     void    update();
-    void    draw();
+    
+    void    draw(int x = 0, int y = 0, float _width = -1, float _height = -1);
+    void    drawVelocity(int x = 0, int y = 0, float _width = -1, float _height = -1);
+
+    float   dissipation;
+    float   velocityDissipation;
+    float   temperatureDissipation;
+    float   pressureDissipation;
     
 private:
-    void    initFbo(ofFbo & _fbo, int _width, int _height, int _internalformat);
-    
-    void    initBuffer(Buffer & _buffer, float _dissipation ,int _width, int _height, int _internalformat);
-    void    setTextureToBuffer(ofTexture & _tex, Buffer & _buffer);
-    void    swapBuffer(Buffer & _buffer);
-    
-    void    renderFrame(float _width, float _height);
-    
-    void    advect(Buffer& buffer);
+    void    advect(ofxSwapBuffer& _buffer, float _dissipation);
     void    jacobi();
     void    subtractGradient();
     void    computeDivergence();
     
-    void    applyImpulse(Buffer& _buffer, ofVec2f _force, ofVec3f _value, float _radio = 3.0f);
+    void    applyImpulse(ofxSwapBuffer& _buffer, ofBaseHasTexture &_baseTex, float _pct = 1.0, bool _isVel = false);
+    void    applyImpulse(ofxSwapBuffer& _buffer, ofPoint _force, ofPoint _value, float _radio = 3.f);
     void    applyBuoyancy();
 
-    ofShader advectShader;
     ofShader jacobiShader;
     ofShader subtractGradientShader;
     ofShader computeDivergenceShader;
     ofShader applyImpulseShader;
+    ofShader applyTextureShader;
     ofShader applyBuoyancyShader;
     
-    Buffer  velocityBuffer;
-    Buffer  densityBuffer;
-    Buffer  temperatureBuffer;
-    Buffer  pressureBuffer;
+    ofxSwapBuffer  velocityBuffer;
+    ofxSwapBuffer  temperatureBuffer;
+    ofxSwapBuffer  pressureBuffer;
     
     ofFbo   divergenceFbo;
     ofFbo   obstaclesFbo;
-    ofFbo   hiresObstaclesFbo;
     
     vector<punctualForce> constantForces;
     vector<punctualForce> temporalForces;
-    ofVec2f gForce;
+    ofPoint gForce;
     
     float   smokeBuoyancy;
     float   smokeWeight;
     float   gradientScale;
     float   ambientTemperature;
     
-    float   width,height;
     float   gridWidth,gridHeight;
-    float   cellSize;
     float   timeStep;
+    float   cellSize;
     float   scale;
     
     int     numJacobiIterations;
+    bool    bObstacles;
+    
+    ofFbo   colorAddFbo, velocityAddFbo;
+    float   colorAddPct, velocityAddPct;
+    
+    int     colorGlFormat;
 };
-
-
 #endif

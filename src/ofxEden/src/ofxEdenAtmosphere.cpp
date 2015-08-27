@@ -19,9 +19,9 @@ ofxEdenAtmosphere& ofxEdenAtmosphere::allocate(int _width, int _height, float _s
     
     fluid.allocate(width, height, 0.25);
     
-    fluid.setDensityDissipation(data->atmosphereDenDiss);
-    fluid.setVelocityDissipation(data->atmosphereVelDiss);
-    fluid.setTemperatureDissipation(data->atmosphereTempDiss);
+    fluid.pressureDissipation = (data->atmosphereDenDiss);
+    fluid.velocityDissipation = (data->atmosphereVelDiss);
+    fluid.temperatureDissipation = (data->atmosphereTempDiss);
     
 	contour.bTrackBlobs = false;
 	contour.bTrackFingers = true;
@@ -61,7 +61,17 @@ ofxEdenAtmosphere& ofxEdenAtmosphere::circularWind(float force, float angle)
 
 void ofxEdenAtmosphere::update(ofxCvGrayscaleImage &blobImage, ofFloatImage &depthFloatImage)
 {
-    
+    fluid.begin();
+    ofClear(0);
+    //ofEnableBlendMode(OF_BLENDMODE_ADD);
+    ofSetColor(50);
+    depthFloatImage.draw(0,0);
+    //ofSetColor(255);
+    //blobImage.draw(0, 0);
+    //ofDisableBlendMode();
+    fluid.end();
+    fluid.setUseObstacles(true);
+
 	contour.findContours(blobImage, 20, (340*240)/3, 10, 20, false);
 	tracker.track(&contour);
 	
@@ -76,21 +86,15 @@ void ofxEdenAtmosphere::update(ofxCvGrayscaleImage &blobImage, ofFloatImage &dep
 	
 	if(data->atmosphereCircularForce > 0.01)
 		circularWind(data->atmosphereCircularForce,data->atmosphereCircularAngle);
+    
+    fluid.update();
 	
-    fluid.obstaclesBegin();
-    ofClear(0);
-    //ofEnableBlendMode(OF_BLENDMODE_ADD);
-    ofSetColor(50);
-    depthFloatImage.draw(0,0);
-    //ofSetColor(255);
-    //blobImage.draw(0, 0);
-    //ofDisableBlendMode();
-    fluid.obstaclesEnd();
     
 	clouds.begin();
 	ofClear(0, 0, 0, 255);
 	ofSetColor(255,255);
     fluid.draw();
+    //blobImage.draw(0, 0);
 	clouds.end();
     
 	ofDisableAlphaBlending();

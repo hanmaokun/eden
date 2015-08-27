@@ -26,6 +26,7 @@ public:
 	
 	ofTexture&	getAverage(){ return averageTexture; };
 	ofTexture&	getChange(){ return changeTexture; };
+    ofTexture&	getChangeE(){ return changeTextureEmpty; };
 	ofTexture&	getNormal(){ return normalTexture; };
 	ofTexture&	getNoise(){ return noiseTexture; };
 	ofTexture&	getConditions(){ return texture; };
@@ -45,8 +46,10 @@ private:
 	ofTexture	averageTexture;
 	
 	ofTexture	change();
+    ofTexture   changeE();
 	ofFbo		changeFbo;
 	ofTexture	changeTexture;
+    ofTexture	changeTextureEmpty;
 	
 	ofTexture	*frames;
 	int			totalFrames;	// For the depth average ( actualFRAME and TOTALaverageFRAMES)

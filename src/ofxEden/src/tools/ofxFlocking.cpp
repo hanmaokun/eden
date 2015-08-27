@@ -389,7 +389,7 @@ ofxFlocking& ofxFlocking::allocate(int _width, int _height, int _nBoids){
     for(int i = 0; i < 2; i++){
         posFbo[i].allocate(resolution,resolution,GL_RGB32F);
         posFbo[i].begin();
-        ofClear(0);
+        ofClear(0); 
         posTex.draw(0,0);
         posFbo[i].end();
         

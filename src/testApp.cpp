@@ -108,7 +108,7 @@ void testApp::update(){
             for(int i = 0; i < numPixels; i++, depthRaw++) {
                 if(*depthRaw <= nearThreshold && *depthRaw >= farThreshold){
                     blobPixels[i] = 0;
-                    depthFloatPixels[i] += ofMap(*depthRaw, nearThreshold, farThreshold, 0,1.0);
+                    depthFloatPixels[i] += ofMap(*depthRaw, nearThreshold, farThreshold, 0.0f,1.0f);
                     depthFloatPixels[i] *= 0.5;
                 } else if ( *depthRaw < nearThreshold ){
                     if ( *depthRaw == 0)
@@ -117,7 +117,7 @@ void testApp::update(){
                         blobPixels[i] = 255;
                 } else if ( *depthRaw > farThreshold ){
                     blobPixels[i] = 0;
-                    depthFloatPixels[i] = 0.0;
+                    depthFloatPixels[i] = 0.0f;
                 } else {
                     blobPixels[i] = 0;
                 }
@@ -126,16 +126,18 @@ void testApp::update(){
                 int y = i/height;
                 
                 if ( depthFloatPixels[i] <= data.waterLevel){
-                    if (ofRandom(100000) < 1.0)
+                    if (ofRandom(10000) < 1.0)
                         atmosphere.setHotAt(x,y,0.5);
                 } else {
-                    if (ofRandom(100000) < 1.0)
+                    if (ofRandom(10000) < 1.0)
                         atmosphere.setColdAt(x,y,0.5);
                 }
             }
             
             // Save the results in a blobImage for the sky and depthFloatImage for the heightmap
             blobImage.flagImageChanged();
+            //blobImage.setFromPixels(blobPixels, width, height);
+            
             depthFloatImage.setFromPixels(depthFloatPixels, width, height, OF_IMAGE_GRAYSCALE );
             depthFloatImage.reloadTexture();
             
@@ -350,10 +352,7 @@ void testApp::mouseDragged(int x, int y, int button){
 }
 
 void testApp::mousePressed(int x, int y, int button){
-    /*data.activeLayer += 1;
-    if(data.activeLayer == 10) {
-        data.activeLayer = 0;
-    }*/
+  
 }
 
 void testApp::mouseReleased(int x, int y, int button){
