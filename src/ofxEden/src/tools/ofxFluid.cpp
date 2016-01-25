@@ -439,6 +439,7 @@ void ofxFluid::update(){
     
     //  Pre-Compute
     //
+    
     advect(velocityBuffer, velocityDissipation);
     velocityBuffer.swap();
     
@@ -455,6 +456,7 @@ void ofxFluid::update(){
     ofDisableBlendMode();
     //  Update temperature, Color (PingPong) and Velocity buffers
     //
+    /*
     if(colorAddPct>0.0||velocityAddPct>0.0){
         applyImpulse(temperatureBuffer, colorAddFbo, colorAddPct);
         applyImpulse(velocityBuffer, velocityAddFbo, velocityAddPct, true);
@@ -501,7 +503,7 @@ void ofxFluid::update(){
                 applyImpulse(velocityBuffer , constantForces[i].pos, constantForces[i].vel, constantForces[i].rad);
         }
     }
-    
+    */
     //  Compute
     //
     computeDivergence();

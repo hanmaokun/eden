@@ -1,0 +1,29 @@
+{
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "B7CCA6A8C889ED4C803FBF307564FD139754E943" : 0,
+    "D513395B3B2672F06879738DB1BEEA65E2B146B1" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "DB65D89A-1343-4C49-B867-78369EF44AAE",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "B7CCA6A8C889ED4C803FBF307564FD139754E943" : "..\/..\/addons\/ofxFX",
+    "D513395B3B2672F06879738DB1BEEA65E2B146B1" : "..\/..\/addons\/ofxComposer"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "eden",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "eden.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/patriciogonzalezvivo\/ofxFX.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B7CCA6A8C889ED4C803FBF307564FD139754E943"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/patriciogonzalezvivo\/ofxComposer.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D513395B3B2672F06879738DB1BEEA65E2B146B1"
+    }
+  ]
+}
